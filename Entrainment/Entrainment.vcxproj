@@ -47,10 +47,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\arduino-1.6.4\hardware\arduino\avr\cores\arduino;C:\arduino-1.6.4\hardware\arduino\avr\variants\standard;C:\Users\Colten\Programming\Entrainment\Entrainment;C:\arduino-1.6.4\libraries;C:\arduino-1.6.4\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\ebs3rgo0.a3a\Micro Platforms\default\debuggers;C:\Users\Colten\Documents\Arduino\libraries;C:\arduino-1.6.4\hardware\tools\avr/avr/include/;C:\arduino-1.6.4\hardware\tools\avr//avr/include/avr/;C:\arduino-1.6.4\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>C:\Users\Colten\Programming\Entrainment\Entrainment\__vm\.Entrainment.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=10604;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -74,6 +74,16 @@
     <None Include="Entrainment.ino">
       <FileType>CppCode</FileType>
     </None>
+    <None Include="lights.ino" />
+    <None Include="States.ino" />
+    <None Include="waveforms.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PWM_Controller.h" />
+    <ClInclude Include="__vm\.Entrainment.vsarduino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PWM_Controller.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

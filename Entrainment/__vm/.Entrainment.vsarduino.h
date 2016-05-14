@@ -68,6 +68,7 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <PWM_Controller.cpp>
 #include <PWM_Controller.h>
 #include <States.ino>
+#include <lights.h>
 #include <lights.ino>
 #include <waveforms.ino>
 #endif

@@ -1,57 +1,74 @@
-
-
-enum State
-{
-	IDLE,
-	PLAYING
-};
+#define ENTRAIN_DIFF_MILLIS 100
+#define MIN_ENTRAIN_COUNT 3
 
 uint8_t pin_P1_ready;
 uint8_t pin_P2_ready;
 uint8_t pin_P1_pulse;
 uint8_t pin_P2_pulse;
-State current_state;
-State next_state;
-bool player_ready[2];
-bool found_pulse[2];
-
-int entrain_count = 0;
+unsigned long in_use_time;
+bool pulse_read[2];
+bool pulse_state[2];
+bool in_use;
+bool entrainment = false;
+unsigned long pulse_time[2];
+unsigned long IBI[2];
+uint8_t entrain_count = 0;
 
 void loop() {
 
-	getInputs();
+	// Check if anyone is there and grab the timestamp if they are
+	in_use = digitalRead(pin_P1_ready) || digitalRead(pin_P2_ready);
 
-	switch (current_state)
+	if (in_use)
 	{
-	case IDLE:
+		in_use_time = millis();
 
-		doIdle();
+		// Check pulses
+		pulse_read[0] = digitalRead(pin_P1_pulse);
+		pulse_read[1] = digitalRead(pin_P2_pulse);
 
-		if (player_ready[0] || player_ready[1]) {
-			next_state = PLAYING;
+
+		//check for entrainment and get pulse rate for both players
+		for (uint8_t i = 0; i < 2; i++)
+		{
+			// End of pulse
+			if (pulse_state[i] && !pulse_read[i]) {
+				pulse_state[i] = false;
+			}
+
+			// pulse begins
+			else if(!pulse_state[i] && pulse_read[i])
+			{
+				pulse_state[i] = true;
+				start_pulse_animation[i] = true;
+				
+				// Track pulse times
+				unsigned long t = millis();
+				IBI[i] = t - pulse_time[i];
+				pulse_time[i] = t;
+				
+				// Check for entrainment
+				signed long diff = pulse_time[1] - pulse_time[0];
+				diff = abs(diff);
+
+				// Entrainment occurs
+				if (diff < ENTRAIN_DIFF_MILLIS) {
+					entrain_count++;
+
+					// Sequential entrainment
+					if (entrain_count >= MIN_ENTRAIN_COUNT) {
+						entrainment = true;
+					}
+				}
+				else
+				{
+					entrain_count = 0;
+					entrainment = false;
+				}
+			}
 		}
-
-		break;
-	case PLAYING:
-
-		doPlaying();
-
-
-		if (!player_ready[0] && !player_ready[1]) {
-			next_state = IDLE;
-		}
-
-		break;
-	default:
-		break;
 	}
 
-	current_state = next_state;
-}
-
-void getInputs() {
-	player_ready[0] = digitalRead(pin_P1_ready);
-	player_ready[1] = digitalRead(pin_P2_ready);
-	found_pulse[0] = digitalRead(pin_P1_pulse);
-	found_pulse[1] = digitalRead(pin_P2_pulse);
+	//send signals to lights
+	doLights();
 }
