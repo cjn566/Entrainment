@@ -74,16 +74,18 @@
     <None Include="Entrainment.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="lights.ino" />
-    <None Include="States.ino" />
-    <None Include="waveforms.ino" />
+    <None Include="lights.h" />
+    <None Include="States.cpp" />
+    <None Include="waveforms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PWM_Controller.h" />
+    <ClInclude Include="TimerOne.h" />
     <ClInclude Include="__vm\.Entrainment.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PWM_Controller.cpp" />
+    <ClCompile Include="TimerOne.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

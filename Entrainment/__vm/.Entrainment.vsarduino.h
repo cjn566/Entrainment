@@ -65,10 +65,13 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portInputRegister(P)
 #define portModeRegister(P)
 #include <Entrainment.ino>
+#include <GameInfo.h>
 #include <PWM_Controller.cpp>
 #include <PWM_Controller.h>
-#include <States.ino>
+#include <States.h>
+#include <TimerOne.cpp>
+#include <TimerOne.h>
+#include <lights.cpp>
 #include <lights.h>
-#include <lights.ino>
-#include <waveforms.ino>
+#include <waveforms.h>
 #endif

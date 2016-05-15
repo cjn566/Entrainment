@@ -1,5 +1,5 @@
 // PWM_Controller.h
-
+#pragma once
 #ifndef _PWM_CONTROLLER_h
 #define _PWM_CONTROLLER_h
 

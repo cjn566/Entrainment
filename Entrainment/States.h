@@ -1,19 +1,6 @@
-#define ENTRAIN_DIFF_MILLIS 100
-#define MIN_ENTRAIN_COUNT 3
 
-uint8_t pin_P1_ready;
-uint8_t pin_P2_ready;
-uint8_t pin_P1_pulse;
-uint8_t pin_P2_pulse;
-unsigned long in_use_time;
-bool pulse_read[2];
-bool pulse_state[2];
-bool in_use;
-bool entrainment = false;
-unsigned long pulse_time[2];
-unsigned long IBI[2];
-uint8_t entrain_count = 0;
 
+/*
 void loop() {
 
 	// Check if anyone is there and grab the timestamp if they are
@@ -72,3 +59,4 @@ void loop() {
 	//send signals to lights
 	doLights();
 }
+*/
