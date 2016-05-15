@@ -16,6 +16,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Entrainment.ino" />
+    <None Include="waveforms.ino" />
+    <None Include="States.ino" />
   </ItemGroup>
- 
+  <ItemGroup>
+    <ClInclude Include="__vm\.Entrainment.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PWM_Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PWM_Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>
