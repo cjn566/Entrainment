@@ -69,7 +69,5 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <PWM_Controller.h>
 #include <TimerOne.cpp>
 #include <TimerOne.h>
-#include <lights.cpp>
-#include <lights.h>
 #include <waveforms.h>
 #endif

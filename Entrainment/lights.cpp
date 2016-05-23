@@ -7,39 +7,26 @@
 
 
 bool lights_ready = false;
-Animation strand_animation = UNSET;
-Animation rgb_animation = UNSET;
 GameInfo * GM;
 LightElement strand[NUM_STRANDS];
-LightElement rgb[NUM_RGBS];// NUM_RGBS];
+LightElement rgb[1];// NUM_RGBS];
 CRGB leds[NUM_RGBS];
 PWM_ControllerClass pwm = PWM_ControllerClass(NUM_TLC5974, pwm_clock, pwm_data, pwm_latch);
-
-
-
-
-// ?????????
-uint16_t chase_speed = 0;
-uint16_t chase_counter = 0;
-unsigned int timer = 0;
+bool pattern_initialized = false;
 unsigned long idle_time = 0;
-unsigned long pattern_time = 0;
-bool pattern_initialized = false;		//TODO
-
-
-
-
-
 
 void lights_init(GameInfo * info) {
 
 	Serial.print("A\n");
 	GM = info;
-	//pwm.init();
-	//FastLED.addLeds<WS2812B, RGB_data, RGB>(leds, NUM_RGBS);
+	pwm.init();
+	FastLED.addLeds<WS2812B, RGB_data, RGB>(leds, NUM_RGBS);
+	for (int i = 0; i < NUM_RGBS; i++)
+	{
+		rgb[i].rgb = &leds[i];
+	}
 	resetLights(strand, NUM_STRANDS);
 	resetLights(rgb, NUM_RGBS);
-
 
 };
 
@@ -55,14 +42,9 @@ void testLights() {
 
 void resetLights(LightElement *e, uint8_t count) {
 	for (uint8_t j = 0; j < count; j++) {
-		e[j].animation_speed = 8;
 		e[j].active = false;
-		e[j].repeat = false;
-		e[j].delay_ctr = 0;
-		e[j].delay_rst = 0;
 		e[j].next_index = 0;
-		e[j].pwm_val = 0;
-		e[j].rgb_val.v = 0;
+		*e[j].rgb = CRGB::Black;
 	}
 }
 
@@ -70,60 +52,26 @@ void setIdleTime() {
 	idle_time = millis() - GM->in_use_time;
 }
 
-void setPatternTime() {
-	pattern_time = millis() - GM->in_use_time;
-}
-
-// TODO:
-Animation chooseIdlePattern() {
-	Animation ret;
-	/*
-	for (uint8_t i = ; i >= 0; i--)
-	{
-	if (val < speed_map[1][i]) {
-	ret = speed_map[0][i];
-	break;
-	}
-	}
-	*/
-	return ret;
-}
-
 
 void startPulseAnimation(uint8_t c) {
-	//Strands
-	uint8_t speed = calcPulseSpeedOnIBI(c);
+	// Strands
 	LightElement *s = &strand[NUM_STRANDS_PP*c];
 	for (uint8_t j = 0; j < NUM_STRANDS_PP; j++) {
 		s[j].active = true;
-		s[j].waveform = PULSE;
-		s[j].animation_speed = speed;
+		s[j].next_index = 0;
 	}
+	// RGBs
 	s = &rgb[NUM_RGBS_PP*c];
 	for (uint8_t j = 0; j < NUM_RGBS_PP; j++) {
 		s[j].active = true;
-		s[j].waveform = PULSE;
-		s[j].animation_speed = speed;
+		s[j].next_index = 0;
 	}
 }
 
-int calcPulseSpeedOnIBI(uint8_t c) {
-	int val = PULSE_ANIM_PORTION(GM->IBI[c]);
-	int ret = 8;
-	for (uint8_t i = 19; i >= 0; i--)
-	{
-		if (val < speed_map[1][i]) {
-			ret = speed_map[0][i];
-			break;
-		}
-	}
-	return ret;
-}
 
-
-// TODO:
-void initStrandsFor(Animation pattern) {
 	/*
+// TODO:
+void initStrandsFor(int pattern) {
 	strand_animation = pattern;
 	Serial.println("Init strands\nPattern: ");
 	Serial.println(strand_animation);
@@ -152,13 +100,13 @@ void initStrandsFor(Animation pattern) {
 	default:
 	break;
 	}
-	*/
 }
+	*/
 /*
 */
 
 
-
+/*
 void setValues() {
 	if (!lights_ready) {
 
@@ -168,10 +116,8 @@ void setValues() {
 			s = &strand[j];
 			if (s->active) {
 				if (s->next_index) {
-					s->pwm_val = waves[s->waveform][s->next_index];
-					s->next_index += s->animation_speed;
+					s->next_index ++;
 					if (s->next_index > 255) {
-						s->pwm_val = 0;
 						s->next_index = 0;
 					}
 				}
@@ -182,7 +128,7 @@ void setValues() {
 					}
 					else
 					{
-						if (s->repeat) {
+						if (s->) {
 							s->next_index = 1;
 							s->delay_ctr = s->delay_rst;
 						}
@@ -208,7 +154,7 @@ void setValues() {
 					else {
 						s->active = false;
 					}
-					s->pwm_val = CRGB::Black;
+					s->brightness = CRGB::Black;
 				}
 			}
 		}
@@ -217,7 +163,7 @@ void setValues() {
 		// Copy values from light structs to bus data
 		noInterrupts();
 		for (uint8_t j = 0; j < NUM_STRANDS; j++) {
-			pwm.setPWM(j, strand[j].pwm_val);
+			pwm.setPWM(j, strand[j].brightness);
 		}
 		for (uint8_t j = 0; j < NUM_RGBS; j++) {
 			leds[j] = rgb[j].rgb_val;
@@ -259,7 +205,11 @@ void doLights() {
 	}
 
 
-	/*
+
+	pwm.write();
+	FastLED.show();
+
+* /
 	switch (pattern_strands)
 	{
 	case UNSET:
@@ -291,21 +241,5 @@ void doLights() {
 	default:
 	break;
 	}
+}
 	*/
-
-}
-
-
-void updateLEDs() {
-	noInterrupts();
-	if (lights_ready) {
-		pwm.write();
-		FastLED.show();
-		lights_ready = false;
-	}
-	else {
-		// TODO: interrupts were too fast.
-	}
-	pattern_time++;
-	interrupts();
-}
