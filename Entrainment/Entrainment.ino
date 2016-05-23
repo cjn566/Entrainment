@@ -23,12 +23,12 @@
 
 
 // Settings
-#define IDLE_DELAY		1000
+#define IDLE_DELAY		10000
 #define NUM_RGBS		192
 #define NUM_RGBS_PP		(NUM_RGBS/2)
 #define NUM_STRANDS		12
 #define NUM_STRANDS_PP	(NUM_STRANDS/2)
-#define MAX_ENTRAIN		12
+#define MAX_ENTRAIN		6
 #define ENT_SAT_D		255 / MAX_ENTRAIN
 
 // Misc.
@@ -68,7 +68,7 @@ int pulse_wave_idx[2] = { 0,0 };
 unsigned long in_use_time;
 unsigned long entrain_time;
 unsigned long prev_entrain_time;
-unsigned long idle_time;
+unsigned long idle_time = IDLE_DELAY;
 unsigned long IBI[2]; 
 uint8_t pulse_val;
 uint8_t pulse_speed = 6; 
@@ -155,12 +155,6 @@ void pulse(uint8_t pin) {
 				entrainment = true;
 			}
 		}
-
-		//Serial.print(pin); Serial.print(" : IBI : "); Serial.print(IBI[pin]);
-		//Serial.print(" : diff : "); Serial.print(diff);
-		//Serial.print(" : entr_cnt : "); Serial.print(entrain_count);
-		//if(entrainment) Serial.print("ENTRAAINED");
-		//Serial.println();
 	}
 }
 
@@ -215,7 +209,7 @@ void loop() {
 	}
 
 	// Start Idle
-	if (idle_time > IDLE_DELAY) {
+	if (idle_time >= IDLE_DELAY) {
 		idle = true;
 		if (!lights_ready) {
 
