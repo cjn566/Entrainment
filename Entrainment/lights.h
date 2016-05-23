@@ -8,7 +8,7 @@
 // Settings
 #define PULSE_ANIM_PORTION(a)	(a*4)/5
 #define IDLE_DELAY				10000
-#define NUM_RGBS		50
+#define NUM_RGBS		192
 #define NUM_RGBS_PP		(NUM_RGBS/2)
 #define NUM_STRANDS		12
 #define NUM_STRANDS_PP	(NUM_STRANDS/2)
@@ -19,13 +19,16 @@
 
 // GPIO Pins
 // PWM
-#define pwm_data    9
-#define pwm_clock   10
-#define pwm_latch	8
+#define pwm_data    11
+#define pwm_clock   13
+#define pwm_latch	10
 #define pwm_oe		-1  // set to -1 to not use the enable pin (its optional)
 #define NUM_TLC5974 1
 // RGB
-#define RGB_data 4
+#define RGB_data 9
+// Sound
+#define SOUND_1 5
+#define SOUND_2 6
 
 enum Animation
 {
@@ -63,7 +66,7 @@ typedef struct {
 	bool in_use;
 	bool entrainment;
 	bool start_pulse_animation[2];
-	uint8_t entrain_count;
+	int entrain_count;
 	unsigned long in_use_time;
 	unsigned long IBI[2];
 } GameInfo;
@@ -78,5 +81,5 @@ void startPulseAnimation(uint8_t c);
 int calcPulseSpeedOnIBI(uint8_t c);
 void setValues();
 
-
+void testLights();
 #endif 

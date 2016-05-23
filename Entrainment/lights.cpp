@@ -11,8 +11,8 @@ Animation strand_animation = UNSET;
 Animation rgb_animation = UNSET;
 GameInfo * GM;
 LightElement strand[NUM_STRANDS];
-LightElement rgb[NUM_RGBS];
-CRGB rgbs[NUM_RGBS];
+LightElement rgb[NUM_RGBS];// NUM_RGBS];
+CRGB leds[NUM_RGBS];
 PWM_ControllerClass pwm = PWM_ControllerClass(NUM_TLC5974, pwm_clock, pwm_data, pwm_latch);
 
 
@@ -32,12 +32,26 @@ bool pattern_initialized = false;		//TODO
 
 
 void lights_init(GameInfo * info) {
+
+	Serial.print("A\n");
 	GM = info;
-	pwm.init();
-	FastLED.addLeds<WS2812B, RGB_data, RGB>(rgbs, NUM_RGBS);
+	//pwm.init();
+	//FastLED.addLeds<WS2812B, RGB_data, RGB>(leds, NUM_RGBS);
 	resetLights(strand, NUM_STRANDS);
 	resetLights(rgb, NUM_RGBS);
+
+
 };
+
+void testLights() {
+	for (int i = 0; i < NUM_RGBS_PP; i++)
+	{
+		leds[i] = CRGB::Amethyst;
+		leds[i + NUM_RGBS_PP] = CRGB::Crimson;
+	}
+	FastLED.show();
+	Serial.print("Show\n");
+}
 
 void resetLights(LightElement *e, uint8_t count) {
 	for (uint8_t j = 0; j < count; j++) {
@@ -66,10 +80,10 @@ Animation chooseIdlePattern() {
 	/*
 	for (uint8_t i = ; i >= 0; i--)
 	{
-		if (val < speed_map[1][i]) {
-			ret = speed_map[0][i];
-			break;
-		}
+	if (val < speed_map[1][i]) {
+	ret = speed_map[0][i];
+	break;
+	}
 	}
 	*/
 	return ret;
@@ -117,26 +131,26 @@ void initStrandsFor(Animation pattern) {
 	switch (strand_animation)
 	{
 	case S_ON_PULSE:
-		break;
+	break;
 	case S_CHASE_2:
-		break;
+	break;
 
 	case S_ALL_SINE:
-		Serial.println("Init strands for SINE");
-		LightElement *s;
-		for (uint8_t i = 0; i < 2; i++) {
-			for (uint8_t j = 0; j < 12; j++) {
-				s = &strand[i][j];
+	Serial.println("Init strands for SINE");
+	LightElement *s;
+	for (uint8_t i = 0; i < 2; i++) {
+	for (uint8_t j = 0; j < 12; j++) {
+	s = &strand[i][j];
 
-				s->active = true;
-				s->repeat = true;
-				s->waveform = SINE;
-			}
-		}
-		break;
+	s->active = true;
+	s->repeat = true;
+	s->waveform = SINE;
+	}
+	}
+	break;
 
 	default:
-		break;
+	break;
 	}
 	*/
 }
@@ -176,7 +190,7 @@ void setValues() {
 							s->active = false;
 						}
 						s->delay_ctr = s->delay_rst;
-					}					
+					}
 				}
 			}
 		}
@@ -206,7 +220,7 @@ void setValues() {
 			pwm.setPWM(j, strand[j].pwm_val);
 		}
 		for (uint8_t j = 0; j < NUM_RGBS; j++) {
-			rgbs[j] = rgb[j].rgb_val;
+			leds[j] = rgb[j].rgb_val;
 		}
 		interrupts();
 
