@@ -16,8 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Entrainment.ino" />
-    <None Include="waveforms.ino" />
-    <None Include="States.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Entrainment.vsarduino.h">

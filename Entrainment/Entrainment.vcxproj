@@ -50,7 +50,7 @@
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Users\Colten\Programming\Entrainment\Entrainment;C:\Program Files (x86)\Arduino\libraries\Timer1;C:\Program Files (x86)\Arduino\libraries\Timer1\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\3pa1xja2.zfb\Micro Platforms\default\debuggers;C:\Users\Colten\Documents\Arduino\libraries;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\;c:\program files (x86)\arduino\hardware\tools\avr\avr\include\avr\;c:\program files (x86)\arduino\hardware\tools\avr\avr\;c:\program files (x86)\arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>C:\Users\Colten\Programming\Entrainment\Entrainment\__vm\.Entrainment.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=10608;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;GCC_VERSION=40801;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=10608;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -74,8 +74,6 @@
     <None Include="Entrainment.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="States.ino" />
-    <None Include="waveforms.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PWM_Controller.h" />
