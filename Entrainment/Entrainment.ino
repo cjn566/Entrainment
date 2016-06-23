@@ -142,9 +142,9 @@ void pulse(uint8_t pin) {
 		IBI[pin] = diff_pulse;
 
 
+
 		digitalWrite(out_pins[pin], HIGH);
 		sound_pulse_active[pin] = ts_pulse;
-
 
 		if (go_pulse[pin]) {
 			pulse_wave_idx[pin] = 0;
@@ -218,6 +218,7 @@ void loop() {
 						go_pulse[i] = false;
 						resetLights();
 						reset = true;
+
 					}
 				}
 			}
@@ -240,7 +241,6 @@ void loop() {
 	if(idle){
 		if (!lights_ready) {
 			reset = false;
-
 
 			// PWM
 			for (uint8_t j = 0; j < 24; j++)
@@ -310,3 +310,4 @@ void resetLights() {
 void tick() {
 	go_lights = true;
 }
+

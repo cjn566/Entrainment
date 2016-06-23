@@ -16,9 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Entrainment.ino" />
-    <None Include="States.cpp" />
-    <None Include="waveforms.cpp" />
-    <None Include="lights.h" />
+    <None Include="waveforms.ino" />
+    <None Include="States.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Entrainment.vsarduino.h">
@@ -27,15 +26,9 @@
     <ClInclude Include="PWM_Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TimerOne.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PWM_Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TimerOne.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
