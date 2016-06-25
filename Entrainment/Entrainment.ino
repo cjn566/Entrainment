@@ -54,7 +54,7 @@
 
 // TESTING
 uint8_t var_val;
-#define POT_PIN 4
+#define POT_PIN 2
 
 // Inlines
 #define WIND(a,b,c) (b>=a? ((b <= c)? b:c):(a))
@@ -160,8 +160,10 @@ void pulse(uint8_t pin) {
 
 		// Entrainment expires
 		if (entrainment && (pulse_time[pin] - entrain_time > MAX_IBI)) {
-			entrainment = false;
-			entrain_count = 0;
+			entrain_count--;
+			if (entrain_count <= 0) {
+				entrainment = false;
+			}
 		}
 
 		// Check for entrainment
@@ -196,7 +198,6 @@ void loop() {
 			for (uint8_t i = 0; i < 2; i++)
 			{
 				if (go_pulse[i]) {
-					reset = false;
 
 					// PWM
 					for (uint8_t j = 0; j < 12; j++)
@@ -215,10 +216,15 @@ void loop() {
 					// Pulse is done, clear everything
 					if ((pulse_wave_idx[i] = pulse_wave_idx[i] + pulse_speed) >= 255) {
 						pulse_wave_idx[i] = 0;
+						for (uint8_t j = 0; j < 91; j++)
+						{
+							leds[j + (91 * i)] = CRGB::Black;
+						}
+						for (uint8_t j = 0; j < 12; j++)
+						{
+							pwm.setPWM(j + (12 * i), 0);
+						}
 						go_pulse[i] = false;
-						resetLights();
-						reset = true;
-
 					}
 				}
 			}
@@ -227,20 +233,8 @@ void loop() {
 			lights_ready = true;
 		}
 	}
-	else
-	{
-		if (!reset) {
-			resetLights();
-			reset = true;
-		}
-		if (!idle && (millis() - in_use_time) >= IDLE_DELAY) {
-			idle = true;
-		}
-	}
-
-	if(idle){
+	else if(idle){
 		if (!lights_ready) {
-			reset = false;
 
 			// PWM
 			for (uint8_t j = 0; j < 24; j++)
@@ -262,6 +256,15 @@ void loop() {
 			lights_ready = true;
 		}
 	}
+	else
+	{
+		resetLights();
+		if (!idle && (millis() - in_use_time) >= IDLE_DELAY) {
+			idle = true;
+		}
+	}
+
+	
 
 
 	// Timming gate for light effects
